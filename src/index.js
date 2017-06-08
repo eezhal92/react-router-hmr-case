@@ -3,27 +3,18 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { match, Router, browserHistory } from 'react-router';
 
-import App from './App';
-import routes from './routes';
+import Root from './Root';
 
 const mountNode = document.getElementById('root');
 
-const render = () => {
-  match({
-    history: browserHistory,
-    routes,
-  }, (error, redirectLocation, renderProps) => {
-    ReactDOM.render(
-      <AppContainer>
-        <Router {...renderProps} />
-      </AppContainer>,
-      mountNode,
-    );
-  });
-};
+const render = Component =>
+  ReactDOM.render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    mountNode
+  );
 
-render();
+render(Root);
 
-if (module.hot) {
-  module.hot.accept('./App', render);
-}
+if (module.hot) module.hot.accept('./Root', () => render(Root));
